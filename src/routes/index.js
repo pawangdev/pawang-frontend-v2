@@ -6,6 +6,9 @@ const Dompet = lazy(() => import('../pages/Dompet'))
 const TambahDompet = lazy(() => import('../pages/TambahDompet'))
 const Transaksi = lazy(() => import('../pages/Transaksi'))
 const TambahTransaksi = lazy(() => import('../pages/TambahTransaksi'))
+const Kategori = lazy(() => import('../pages/Kategori'))
+const TambahSubKategori = lazy(() => import('../pages/TambahSubKategori'))
+const Pengingat = lazy(() => import('../pages/Pengingat'))
 const Forms = lazy(() => import('../pages/Forms'))
 const Cards = lazy(() => import('../pages/Cards'))
 const Charts = lazy(() => import('../pages/Charts'))
@@ -35,6 +38,18 @@ const routes = [
   {
     path: '/tambahtransaksi',
     component: TambahTransaksi,
+  },
+  {
+    path: '/kategori',
+    component: Kategori,
+  },
+  {
+    path: '/tambahsubkategori',
+    component: TambahSubKategori,
+  },
+  {
+    path: '/pengingat',
+    component: Pengingat,
   },
   {
     path: '/forms',

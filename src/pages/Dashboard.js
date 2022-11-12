@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import InfoCard from '../components/Cards/InfoCard'
 import PageTitle from '../components/Typography/PageTitle'
-import { MoneyIcon, ScanIcon, FormsIcon } from '../icons'
+import { TransactionIcon, ScanIcon, CategoryIcon } from '../icons'
 import RoundIcon from '../components/RoundIcon'
 import response from '../utils/demo/tableData'
 import {
@@ -44,7 +44,7 @@ function Dashboard() {
       <div className="grid gap-4 mb-8 md:grid-cols-3">
         <InfoCard title="Transaksi" value="">
           <RoundIcon
-            icon={MoneyIcon}
+            icon={TransactionIcon}
             iconColorClass="text-blue-500 dark:text-blue-100"
             bgColorClass="bg-blue-100 dark:bg-blue-500"
             className="mr-4"
@@ -62,7 +62,7 @@ function Dashboard() {
 
         <InfoCard title="Kategori" value="">
           <RoundIcon
-            icon={FormsIcon}
+            icon={CategoryIcon}
             iconColorClass="text-blue-500 dark:text-blue-100"
             bgColorClass="bg-blue-100 dark:bg-blue-500"
             className="mr-4"

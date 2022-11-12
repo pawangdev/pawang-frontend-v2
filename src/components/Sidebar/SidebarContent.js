@@ -3,6 +3,7 @@ import routes from '../../routes/sidebar'
 import { NavLink, Route } from 'react-router-dom'
 import * as Icons from '../../icons'
 import SidebarSubmenu from './SidebarSubmenu'
+import logo from '../../assets/img/pawanglogo.png'
 
 function Icon({ icon, ...props }) {
   const Icon = Icons[icon]
@@ -12,8 +13,8 @@ function Icon({ icon, ...props }) {
 function SidebarContent() {
   return (
     <div className="py-4 text-gray-500 dark:text-gray-400">
-      <a className="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="#">
-        Pawang
+      <a href="dashboard">
+        <img src={logo} className="w-32 mx-6" />
       </a>
       <ul className="mt-6">
         {routes.map((route) =>

@@ -13,13 +13,23 @@ const routes = [
   },
   {
     path: '/app/dompet',
-    icon: 'CardsIcon',
+    icon: 'WalletIcon',
     name: 'Dompet',
   },
   {
     path: '/app/transaksi',
-    icon: 'FormsIcon',
+    icon: 'TransactionIcon',
     name: 'Transaksi',
+  },
+  {
+    path: '/app/kategori',
+    icon: 'CategoryIcon',
+    name: 'Kategori',
+  },
+  {
+    path: '/app/pengingat',
+    icon: 'ClockIcon',
+    name: 'Pengingat',
   },
 ]
 

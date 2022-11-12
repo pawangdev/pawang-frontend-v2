@@ -27,12 +27,15 @@ import { ReactComponent as OutlinePersonIcon } from './outlinePerson.svg'
 import { ReactComponent as OutlineCogIcon } from './outlineCog.svg'
 import { ReactComponent as OutlineLogoutIcon } from './outlineLogout.svg'
 import { ReactComponent as GoogleIcon } from './google.svg'
+import { ReactComponent as AddIcon } from './add.svg'
 import { ReactComponent as EditBlueIcon } from './editblue.svg'
 import { ReactComponent as DeleteIcon } from './delete.svg'
 import { ReactComponent as ScanIcon } from './scan.svg'
 import { ReactComponent as TransactionIcon } from './transaction.svg'
 import { ReactComponent as WalletIcon } from './wallet.svg'
 import { ReactComponent as CategoryIcon } from './category.svg'
+import { ReactComponent as ClockIcon } from './clock.svg'
+import { ReactComponent as BelanjaIcon } from './belanja.svg'
 
 export {
   ButtonsIcon,
@@ -64,10 +67,13 @@ export {
   OutlineCogIcon,
   OutlineLogoutIcon,
   GoogleIcon,
+  AddIcon,
   EditBlueIcon,
   DeleteIcon,
   ScanIcon,
   TransactionIcon,
   WalletIcon,
   CategoryIcon,
+  ClockIcon,
+  BelanjaIcon,
 }

@@ -14,11 +14,9 @@ function Forms() {
         <CardBody>
           <div className="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
             <SectionTitle>Saldo Awal Dompet</SectionTitle>
-            <Label className="mt-4">
+            <Label>
               <span>Nominal</span>
-              <Select className="mt-1" multiple>
-                <option>Dompet 1 - 500.000</option>
-              </Select>
+              <Input className="mt-1" placeholder="Rp " />
             </Label>
             <br></br>
 
@@ -50,7 +48,7 @@ function Forms() {
               <span className="text-gray-700 dark:text-gray-400">Tanggal</span>
               <div className="relative text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400">
                 <input
-                  className="block w-full pr-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
+                  className="block w-full pr-3 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
                   placeholder="" type='date'
                 />
               </div>
