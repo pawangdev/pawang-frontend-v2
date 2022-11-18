@@ -1,30 +1,39 @@
-import React, { useContext, useState } from 'react'
-import { SidebarContext } from '../context/SidebarContext'
 import {
-  SearchIcon,
-  MoonIcon,
-  SunIcon,
+  Avatar,
+  Badge,
+  Dropdown,
+  DropdownItem,
+  WindmillContext,
+} from "@windmill/react-ui";
+import React, { useContext, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { toggleSidebar } from "../features/sidebarSlice";
+import { logout } from "../features/userSlice";
+import {
   BellIcon,
   MenuIcon,
-  OutlinePersonIcon,
+  MoonIcon,
   OutlineCogIcon,
   OutlineLogoutIcon,
-} from '../icons'
-import { Avatar, Badge, Dropdown, DropdownItem, WindmillContext } from '@windmill/react-ui'
+  OutlinePersonIcon,
+  SunIcon,
+} from "../icons";
 
 function Header() {
-  const { mode, toggleMode } = useContext(WindmillContext)
-  const { toggleSidebar } = useContext(SidebarContext)
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { mode, toggleMode } = useContext(WindmillContext);
 
-  const [isNotificationsMenuOpen, setIsNotificationsMenuOpen] = useState(false)
-  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
+  const [isNotificationsMenuOpen, setIsNotificationsMenuOpen] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
 
   function handleNotificationsClick() {
-    setIsNotificationsMenuOpen(!isNotificationsMenuOpen)
+    setIsNotificationsMenuOpen(!isNotificationsMenuOpen);
   }
 
   function handleProfileClick() {
-    setIsProfileMenuOpen(!isProfileMenuOpen)
+    setIsProfileMenuOpen(!isProfileMenuOpen);
   }
 
   return (
@@ -33,12 +42,12 @@ function Header() {
         {/* <!-- Mobile hamburger --> */}
         <button
           className="p-1 mr-5 -ml-1 rounded-md lg:hidden focus:outline-none focus:shadow-outline-purple"
-          onClick={toggleSidebar}
+          onClick={() => dispatch(toggleSidebar())}
           aria-label="Menu"
         >
           <MenuIcon className="w-6 h-6" aria-hidden="true" />
         </button>
-        {/* <!-- Search input --> 
+        {/* <!-- Search input -->
         <div className="flex justify-center flex-1 lg:mr-32">
           <div className="relative w-full max-w-xl mr-6 focus-within:text-blue-500">
             <div className="absolute inset-y-0 flex items-center pl-2">
@@ -59,7 +68,7 @@ function Header() {
               onClick={toggleMode}
               aria-label="Toggle color mode"
             >
-              {mode === 'dark' ? (
+              {mode === "dark" ? (
                 <SunIcon className="w-5 h-5" aria-hidden="true" />
               ) : (
                 <MoonIcon className="w-5 h-5" aria-hidden="true" />
@@ -95,7 +104,7 @@ function Header() {
                 <span>Sales</span>
                 <Badge type="danger">2</Badge>
               </DropdownItem>
-              <DropdownItem onClick={() => alert('Alerts!')}>
+              <DropdownItem onClick={() => alert("Alerts!")}>
                 <span>Alerts</span>
               </DropdownItem>
             </Dropdown>
@@ -121,15 +130,27 @@ function Header() {
               onClose={() => setIsProfileMenuOpen(false)}
             >
               <DropdownItem tag="a" href="#">
-                <OutlinePersonIcon className="w-4 h-4 mr-3" aria-hidden="true" />
+                <OutlinePersonIcon
+                  className="w-4 h-4 mr-3"
+                  aria-hidden="true"
+                />
                 <span>Profile</span>
               </DropdownItem>
               <DropdownItem tag="a" href="#">
                 <OutlineCogIcon className="w-4 h-4 mr-3" aria-hidden="true" />
                 <span>Settings</span>
               </DropdownItem>
-              <DropdownItem onClick={() => alert('Log out!')}>
-                <OutlineLogoutIcon className="w-4 h-4 mr-3" aria-hidden="true" />
+              <DropdownItem
+                onClick={() => {
+                  dispatch(logout());
+                  sessionStorage.clear();
+                  history.replace("/login");
+                }}
+              >
+                <OutlineLogoutIcon
+                  className="w-4 h-4 mr-3"
+                  aria-hidden="true"
+                />
                 <span>Log out</span>
               </DropdownItem>
             </Dropdown>
@@ -137,7 +158,7 @@ function Header() {
         </ul>
       </div>
     </header>
-  )
+  );
 }
 
-export default Header
+export default Header;
