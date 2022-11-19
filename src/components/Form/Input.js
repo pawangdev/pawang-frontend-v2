@@ -19,3 +19,12 @@ export const Select = ({ children, className, ...props }) => {
     </select>
   );
 };
+
+export const TextArea = ({ className, ...props }) => {
+  return (
+    <textarea
+      className={`${className} w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm`}
+      {...props}
+    />
+  );
+};

@@ -20,7 +20,7 @@ export const getTaskReminderByID = async (id) => {
 
 export const createTaskReminder = async (payload) => {
   try {
-    const response = await axios.get(`/task-reminders/create`, payload);
+    const response = await axios.post(`/task-reminders/create`, payload);
     return response;
   } catch (error) {
     return error.response.data.message;

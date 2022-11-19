@@ -1,20 +1,23 @@
 import React, { useEffect } from "react";
-import { Link, useHistory, useLocation, useParams } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 
-import { Card, CardBody, Textarea } from "@windmill/react-ui";
-import Label from "../../components/Form/Label";
-import { Input, Select } from "../../components/Form/Input";
-import { getAllCategories, getCategoryByID } from "../../api/categories.api";
+import { Card, CardBody } from "@windmill/react-ui";
+import toast from "react-hot-toast";
+import { getAllCategories } from "../../api/categories.api";
 import {
   createTransaction,
+  getTransactionByID,
   updateTransaction,
 } from "../../api/transactions.api";
+import { getAllWallets } from "../../api/wallets.api";
+import Button from "../../components/Button";
+import { Input, Select, TextArea } from "../../components/Form/Input";
+import Label from "../../components/Form/Label";
 import PageTitle from "../../components/Typography/PageTitle";
 import SectionTitle from "../../components/Typography/SectionTitle";
-import { getAllWallets } from "../../api/wallets.api";
-import toast from "react-hot-toast";
-import Button from "../../components/Button";
-import E from "react-script";
+import moment from "moment";
+import "moment/locale/id";
+moment.locale("id");
 
 function Forms() {
   const { id } = useParams();
@@ -45,10 +48,23 @@ function Forms() {
     setWallets(response);
   };
 
+  const getTransactiontDataById = async (id) => {
+    const res = await getTransactionByID(id);
+    setPayload({
+      ...res,
+      date: moment.utc(res.date).local(true).format("YYYY-MM-DDTkk:mm:ss.SSS"),
+    });
+  };
+
   const onSubmit = async (event) => {
     event.preventDefault();
     try {
       const finalPayload = payload;
+
+      if (payload?.subcategory_id === "") {
+        delete finalPayload.subcategory_id;
+      }
+
       if (isAdding) {
         const response = await createTransaction(finalPayload);
         if (response.status === 201) {
@@ -87,18 +103,22 @@ function Forms() {
   useEffect(() => {
     getAllCategoriesData();
     getAllWalletsData();
-  }, [payload?.category_id]);
+
+    if (id) {
+      getTransactiontDataById(id);
+    }
+  }, []);
 
   return (
     <>
-      <PageTitle>Tambah Transaksi</PageTitle>
+      <PageTitle>{isAdding ? "Tambah Transaksi" : "Edit Transaksi"}</PageTitle>
 
       <Card className="mb-8">
         <CardBody>
           <form onSubmit={onSubmit} method="POST">
             <div className="px-4 py-3 mb-8 bg-white dark:bg-gray-800">
               <div className="mb-4">
-                <SectionTitle>Saldo Awal Dompet</SectionTitle>
+                <SectionTitle>Jumlah Transaksi</SectionTitle>
                 <Label>
                   <span>Nominal</span>
                   <Input
@@ -149,7 +169,7 @@ function Forms() {
                   <Label className="mt-4">
                     <span>Sub Kategori</span>
                     <Select
-                      value={payload?.subcategory_id}
+                      value={payload?.subcategory_id || ""}
                       name="subcategory_id"
                       onChange={(e) => onChangePayload(e)}
                     >
@@ -197,24 +217,34 @@ function Forms() {
                 </Label>
               </div>
 
-              <SectionTitle>Tanggal</SectionTitle>
-              <Label className="mt-4">
-                <span className="text-gray-700 dark:text-gray-400">
-                  Tanggal
-                </span>
-                <Input
-                  type="datetime-local"
-                  value={payload?.date}
-                  name="date"
-                  onChange={(e) => onChangePayload(e)}
-                />
-              </Label>
+              <div className="mb-4">
+                <SectionTitle>Tanggal</SectionTitle>
+                <Label className="mt-4">
+                  <span className="text-gray-700 dark:text-gray-400">
+                    Tanggal
+                  </span>
+                  <Input
+                    type="datetime-local"
+                    value={payload?.date}
+                    name="date"
+                    onChange={(e) => onChangePayload(e)}
+                  />
+                </Label>
+              </div>
 
-              <SectionTitle>Deskripsi</SectionTitle>
-              <Label className="mt-4">
-                <span>Deskripsi</span>
-                <Textarea className="mt-1" rows="3" placeholder="" />
-              </Label>
+              <div className="mb-4">
+                <SectionTitle>Deskripsi</SectionTitle>
+                <Label className="mt-4">
+                  <span>Deskripsi</span>
+                  <TextArea
+                    name="description"
+                    className="mt-1"
+                    rows="3"
+                    value={payload?.description}
+                    onChange={(e) => onChangePayload(e)}
+                  />
+                </Label>
+              </div>
             </div>
 
             <div className="flex flex-col flex-wrap justify-end mb-4 space-y-4 md:flex-row md:items-end md:space-x-4">

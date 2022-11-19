@@ -8,9 +8,9 @@ const Transactions = lazy(() => import("../pages/Transactions/Transactions"));
 const FormTransaction = lazy(() =>
   import("../pages/Transactions/FormTransaction")
 );
-const Kategori = lazy(() => import("../pages/Kategori"));
-const TambahSubKategori = lazy(() => import("../pages/TambahSubKategori"));
-const Pengingat = lazy(() => import("../pages/Pengingat"));
+const Category = lazy(() => import("../pages/Category/Category"));
+const Reminders = lazy(() => import("../pages/Reminders/Reminders"));
+const FormReminder = lazy(() => import("../pages/Reminders/FormReminder"));
 const Forms = lazy(() => import("../pages/Forms"));
 const Cards = lazy(() => import("../pages/Cards"));
 const Charts = lazy(() => import("../pages/Charts"));
@@ -51,15 +51,27 @@ const routes = [
   },
   {
     path: "/kategori",
-    component: Kategori,
+    component: Category,
   },
   {
-    path: "/tambahsubkategori",
-    component: TambahSubKategori,
+    path: "/kategori/tambah",
+    component: Category,
+  },
+  {
+    path: "/kategori/edit/:id",
+    component: Category,
   },
   {
     path: "/pengingat",
-    component: Pengingat,
+    component: Reminders,
+  },
+  {
+    path: "/pengingat/tambah",
+    component: FormReminder,
+  },
+  {
+    path: "/pengingat/edit/:id",
+    component: FormReminder,
   },
   {
     path: "/forms",

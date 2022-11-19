@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import {
-  Badge,
   Card,
   CardBody,
-  Pagination,
   Table,
   TableBody,
   TableCell,
@@ -14,22 +13,19 @@ import {
   TableRow,
 } from "@windmill/react-ui";
 import PageTitle from "../../components/Typography/PageTitle";
-
+import { DeleteIcon, EditBlueIcon } from "../../icons";
+import Button from "../../components/Button";
 import {
-  deleteTransaction,
-  getAllTransactions,
-} from "../../api/transactions.api";
-import formatterCurrency from "../../helpers/currency.helper";
-
+  deleteTaskReminder,
+  getAllTaskReminders,
+} from "../../api/task-reminders.api";
 import moment from "moment";
 import "moment/locale/id";
 import toast from "react-hot-toast";
-import Button from "../../components/Button";
-import { DeleteIcon, EditBlueIcon } from "../../icons";
 moment.locale("id");
 
-function Tables() {
-  const pageName = "transaksi";
+function Reminders() {
+  const pageName = "pengingat";
   // setup pages control for every table
   const [page, setPage] = useState(1);
 
@@ -38,30 +34,24 @@ function Tables() {
 
   // pagination setup
   const resultsPerPage = 10;
-  const totalResults = data.length;
 
-  // pagination change control
-  function onPageChange(p) {
-    setPage(p);
-  }
-
-  const getAllTransactionsData = async () => {
-    const res = await getAllTransactions();
+  const getAllTaskRemindersData = async () => {
+    const res = await getAllTaskReminders();
     setData(res);
   };
 
-  const deleteTransactionData = async (id) => {
+  const deleteReminderData = async (id) => {
     try {
       const confirm = window.confirm(
         "Apakah anda yakin ingin menghapus dompet ini ?"
       );
 
       if (confirm) {
-        const response = await deleteTransaction(id);
+        const response = await deleteTaskReminder(id);
 
         if (response.status === 200) {
           toast.success("Berhasil Menghapus Dompet !");
-          getAllTransactionsData();
+          getAllTaskRemindersData();
         }
       }
     } catch (error) {
@@ -69,24 +59,25 @@ function Tables() {
     }
   };
 
+  // pagination change control
+  function onPageChange(p) {
+    setPage(p);
+  }
+
   useEffect(() => {
-    getAllTransactionsData();
+    getAllTaskRemindersData();
     setData(data.slice((page - 1) * resultsPerPage, page * resultsPerPage));
-  }, []);
+  }, [page]);
 
   return (
     <>
-      <PageTitle>Transaksi</PageTitle>
+      <PageTitle>Pengingat</PageTitle>
 
       <Card className="mb-8 shadow-md">
         <CardBody>
           <div className="flex flex-col flex-wrap justify-end mb-4 space-y-4 md:flex-row md:items-end md:space-x-4">
-            <Button
-              type="link"
-              link={`${pageName}/tambah`}
-              className="bg-blue-500 text-white rounded-lg"
-            >
-              <span>Tambah Transaksi</span>
+            <Button type="link" link="pengingat/tambah">
+              <span>Tambah Pengingat</span>
             </Button>
           </div>
 
@@ -94,52 +85,23 @@ function Tables() {
             <Table>
               <TableHeader>
                 <tr>
-                  <TableCell>KATEGORI</TableCell>
-                  <TableCell>NOMINAL</TableCell>
-                  <TableCell>TANGGAL</TableCell>
+                  <TableCell>NAMA PENGINGAT</TableCell>
+                  <TableCell>TANGGAL & WAKTU</TableCell>
                   <TableCell></TableCell>
                 </tr>
               </TableHeader>
               <TableBody>
-                {data?.length !== 0 ? (
-                  data?.map((item) => (
+                {data?.length != 0 ? (
+                  data.map((item) => (
                     <TableRow key={item?.id} className="hover:bg-gray-50">
                       <TableCell>
-                        <div className="flex items-center">
-                          <img
-                            src={
-                              process.env.REACT_APP_HOST_URL +
-                              item.category.icon
-                            }
-                            alt={item.category.name}
-                            className="w-6 mr-2"
-                          />
-                          <Badge
-                            type={item.type == "income" ? "success" : "danger"}
-                          >
-                            {item.category.name}
-                          </Badge>
-                        </div>
-                      </TableCell>
-
-                      <TableCell>
-                        <span
-                          className={`text-sm font-medium ${
-                            item.type == "income"
-                              ? "text-green-500"
-                              : "text-red-500"
-                          }`}
-                        >
-                          {`${
-                            item.type == "income" ? "+" : "-"
-                          } ${formatterCurrency(item.amount)}`}
-                        </span>
+                        <span>{item?.name}</span>
                       </TableCell>
 
                       <TableCell>
                         <span className="text-sm">
                           {moment
-                            .utc(item.date)
+                            .utc(item?.date)
                             .local(true)
                             .format("Do MMMM YYYY - HH:mm")}
                         </span>
@@ -159,7 +121,7 @@ function Tables() {
                           </Button>
                           <Button
                             type="button"
-                            onClick={() => deleteTransactionData(item?.id)}
+                            onClick={() => deleteReminderData(item?.id)}
                             className=""
                           >
                             <DeleteIcon
@@ -174,20 +136,15 @@ function Tables() {
                 ) : (
                   <TableRow>
                     <TableCell colSpan="3" className="text-center">
-                      <span className="text-sm">Tidak ada data</span>
+                      <p className="text-xs text-gray-600 dark:text-gray-400">
+                        Tidak ada data
+                      </p>
                     </TableCell>
                   </TableRow>
                 )}
               </TableBody>
             </Table>
-            <TableFooter>
-              <Pagination
-                totalResults={totalResults}
-                resultsPerPage={resultsPerPage}
-                onChange={onPageChange}
-                label="Table navigation"
-              />
-            </TableFooter>
+            <TableFooter></TableFooter>
           </TableContainer>
         </CardBody>
       </Card>
@@ -195,4 +152,4 @@ function Tables() {
   );
 }
 
-export default Tables;
+export default Reminders;

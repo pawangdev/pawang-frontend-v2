@@ -178,7 +178,10 @@ function Dashboard() {
 
                       <TableCell>
                         <span className="text-sm">
-                          {moment(item.date).format("Do MMMM YYYY - HH:mm")}
+                          {moment
+                            .utc(item.date)
+                            .local(true)
+                            .format("Do MMMM YYYY - HH:mm")}
                         </span>
                       </TableCell>
                     </TableRow>
